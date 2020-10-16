@@ -1,7 +1,5 @@
 import time
-import requests
-import pandas as pd
-from bs4 import BeautifulSoup
+import Constants
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
@@ -25,10 +23,8 @@ def normalizeDateVar(dateVar):
   return listOfDateToInt
 
 def formatDateLongText(day, month, year):
-  # Arry with the names of the months in pt-Br
-  arrMonths = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
-
-  monthLong = arrMonths[month - 1]
+  
+  monthLong = Constants.arrMonths[month - 1]
 
   return f'{day} de {monthLong} de {year}'
 
@@ -49,7 +45,7 @@ def formatDate (start, end):
 
   return dateFormated
 
-def resquestDataForPeriodOfTime(URL_DATA, formatedDate):
+def resquestDataForPeriodOfTime(formatedDate):
 
   time.sleep(2)
 
@@ -92,20 +88,7 @@ def resquestDataForPeriodOfTime(URL_DATA, formatedDate):
   buttonChosedDayEnd = driver.find_element_by_xpath(f'//*[@id="root"]/div/div[2]/div/form/div[2]/div/div/div[2]/div/div/div[2]/div/div/div/div[2]/button[*]/abbr[@aria-label="{chosedDayEnd}"]')
   buttonChosedDayEnd.click()
 
-# Url to login 
-URL = 'https://marketplace.integracommerce.com.br/Account/Login'
 
-# Url to take data
-URL_DATA = 'https://cdn.integracommerce.com.br/site/production/index.html#/Order'
-
-# Test credentials - provided by TrackCash
-#credenciais1
-LOGIN='desenvolvimento@comprenet.com.br'
-PASSWORD='tecnol@gia2@17'
-
-# Info to search data for a period of time
-START = '01/01/2018'
-END = '01/02/2018'
 
 # Set selenium options
 options = Options()
@@ -113,16 +96,15 @@ options = Options()
 driver = webdriver.Chrome(options=options)
 
 # Request page by URL
-driver.get(URL)
-loadPageAndSingUp(LOGIN, PASSWORD)
+driver.get(Constants.URL)
+loadPageAndSingUp(Constants.LOGIN, Constants.PASSWORD)
 time.sleep(2) #Delay to load page
-formatedDate = formatDate(START, END)
+formatedDate = formatDate(Constants.START, Constants.END)
 # Load data page
-driver.get(URL_DATA)
-resquestDataForPeriodOfTime(URL_DATA, formatedDate)
+driver.get(Constants.URL_DATA)
+resquestDataForPeriodOfTime(formatedDate)
 time.sleep(2) #Delay to load data on page
 
 
 # # End browser
 # driver.quit()
-
