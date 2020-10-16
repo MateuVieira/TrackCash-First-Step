@@ -107,5 +107,5 @@ resquestDataForPeriodOfTime(driver, formatedDate)
 time.sleep(2) #Delay to load data on page
 requestExportToExcel(driver)
 
-# # End browser
-# driver.quit()
+# End browser
+driver.quit()
