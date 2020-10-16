@@ -3,17 +3,17 @@ import Constants
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-def loadPageAndSingUp(LOGIN, PASSWORD):
+def loadPageAndSingUp(driver, login, password):
   # Delay of 5 sec to load page
   time.sleep(5)
 
   # Insert login info
   fieldLogin = driver.find_element_by_xpath('//*[@id="username"]')
-  fieldLogin.send_keys(LOGIN)
+  fieldLogin.send_keys(login)
 
   # Insert password info
   fieldPassword = driver.find_element_by_xpath('//*[@id="password"]')
-  fieldPassword.send_keys(PASSWORD)
+  fieldPassword.send_keys(password)
 
   # Click on button to singup on page
   driver.find_element_by_xpath('//*[@id="kc-login"]').click()
@@ -45,7 +45,7 @@ def formatDate (start, end):
 
   return dateFormated
 
-def resquestDataForPeriodOfTime(formatedDate):
+def resquestDataForPeriodOfTime(driver, formatedDate):
 
   time.sleep(2)
 
@@ -88,7 +88,8 @@ def resquestDataForPeriodOfTime(formatedDate):
   buttonChosedDayEnd = driver.find_element_by_xpath(f'//*[@id="root"]/div/div[2]/div/form/div[2]/div/div/div[2]/div/div/div[2]/div/div/div/div[2]/button[*]/abbr[@aria-label="{chosedDayEnd}"]')
   buttonChosedDayEnd.click()
 
-
+def requestExportToExcel(driver):
+  driver.find_element_by_xpath('//*[@id="root"]/div/div[2]/div/form/button[2]').click()
 
 # Set selenium options
 options = Options()
@@ -97,14 +98,14 @@ driver = webdriver.Chrome(options=options)
 
 # Request page by URL
 driver.get(Constants.URL)
-loadPageAndSingUp(Constants.LOGIN, Constants.PASSWORD)
+loadPageAndSingUp(driver, Constants.LOGIN, Constants.PASSWORD)
 time.sleep(2) #Delay to load page
 formatedDate = formatDate(Constants.START, Constants.END)
 # Load data page
 driver.get(Constants.URL_DATA)
-resquestDataForPeriodOfTime(formatedDate)
+resquestDataForPeriodOfTime(driver, formatedDate)
 time.sleep(2) #Delay to load data on page
-
+requestExportToExcel(driver)
 
 # # End browser
 # driver.quit()
