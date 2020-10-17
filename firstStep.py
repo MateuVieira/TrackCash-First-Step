@@ -1,4 +1,5 @@
 import time
+import re
 import Constants
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -91,6 +92,36 @@ def resquestDataForPeriodOfTime(driver, formatedDate):
 def requestExportToExcel(driver):
   driver.find_element_by_xpath('//*[@id="root"]/div/div[2]/div/form/button[2]').click()
 
+def regexDateVerify(date):
+  regex = r"^(?:(?:31(/)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(/)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(/)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(/)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$"
+  result = re.match(regex,date)
+  return result 
+
+def verifyDate(startDate, endDate):
+  # Checks whether entries are valid dates 
+  # and whether the end date is greater than 
+  # the start date
+  return True if (regexDateVerify(startDate) and regexDateVerify(endDate) and endDate > startDate) else False 
+
+def readInputDate():
+  
+  verifyDateInput = False
+
+  while not verifyDateInput:
+    print('Entre com a data inicial:')
+    print('Fomato esperado - dd/MM/YYYY')
+    startDate = input('-> ')
+
+    if startDate == '':
+      continue
+
+    print('Entre com a data final:')
+    print('Fomato esperado - dd/MM/YYYY')
+    endDate = input('-> ')
+    verifyDateInput = True if verifyDate(startDate, endDate) else False
+
+  return startDate, endDate
+
 # Set selenium options
 options = Options()
 # options.headless = True
@@ -100,7 +131,10 @@ driver = webdriver.Chrome(options=options)
 driver.get(Constants.URL)
 loadPageAndSingUp(driver, Constants.LOGIN, Constants.PASSWORD)
 time.sleep(2) #Delay to load page
-formatedDate = formatDate(Constants.START, Constants.END)
+
+dateStart, dateEnd = readInputDate()
+formatedDate = formatDate(dateStart, dateEnd)
+
 # Load data page
 driver.get(Constants.URL_DATA)
 resquestDataForPeriodOfTime(driver, formatedDate)
