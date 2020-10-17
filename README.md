@@ -36,3 +36,14 @@ Quando clicamos no botão para exportar como Excel um popup aparece na tela avis
 
 * desenvolvimento@comprenet.com.br
 * tecnol@gia2@17
+
+### Extra
+
+Para criar uma melhor interação do usuário com a interface foi implementada a leitura de dados, desta forma o usuário agora pode entrar com as datas que irão definir o início e término do período de tempo. Uma verificação utilizando Regex para confirmar o formato da data esperado (dd/mm/YYYY) e a verificação que a data final é depois da data inicial.
+
+### Observações
+
+* Nas opções de configuração do selenium a flag headless está  setada com o valor False, configuração padrão, para melhor entender o passo a passo das instruções passadas para a realização da tarefa.
+* No código pode ser visto o uso de diversos delays, isto se deve a latência da conexão utilizada durante os teste com o script, foram necessários para que o browser pudesse atualizar os estados do componente da página ou carregar a página.
+* A acreção da leitura de datas ainda tem muito a ser melhorada para ter melhores aspectos de UX e também é necessário a criação de testes automatizados.
+
