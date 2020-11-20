@@ -1,7 +1,7 @@
 # TrackCash-First-Step
 
 <h1 align="center">
-  <img alt="TackCash" title="TackCash" src="https://trackcash.com.br/wp-content/uploads/2020/05/logo-trackcash-light.svg" width="300px" />
+  <img alt="TackCash" title="TackCash" src="https://sistema.trackcash.com.br/images/logo/logo_trackcash_vert.png" width="300px" />
 </h1>
 
 ### Tech
